@@ -2,6 +2,8 @@ require('dotenv').config();
 import 'reflect-metadata';
 import express from 'express';
 import {createConnection} from 'typeorm'
+import { User } from './entities/User';
+import { Post } from './entities/Post';
 
 const main = async () => {
     await createConnection({
@@ -10,7 +12,8 @@ const main = async () => {
         username: process.env.DB_USERNAME_DEV,
         password: process.env.DB_PASSWORD_DEV,
         logging: true,
-        synchronize: true
+        synchronize: true,
+        entities: [User, Post]
     })
 
     const app = express();
