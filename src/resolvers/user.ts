@@ -1,10 +1,11 @@
-import { User } from 'src/entities/User';
+import { User } from '../entities/User';
 import { Arg, Mutation, Resolver } from 'type-graphql';
 import argon2 from 'argon2';
+import { UserMutationRespnse } from '../types/UserMutationResponse';
 
 @Resolver()
 export class UserResolver {
-  @Mutation((_returns) => User, { nullable: true })
+  @Mutation((_returns) => UserMutationRespnse, { nullable: true })
   async register(
     @Arg('email') email: string,
     @Arg('username') username: string,
