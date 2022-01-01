@@ -9,6 +9,11 @@ import { buildSchema } from 'type-graphql';
 import { HelloResolver } from './resolvers/hello';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { UserResolver } from './resolvers/user';
+import mongoose from 'mongoose';
+import MongoStore from 'connect-mongo'
+import session from 'express-session'
+import { COOKIE_NAME, __prod__ } from './constants';
+import { Context } from './types/Context';
 
 const main = async () => {
   await createConnection({
@@ -22,9 +27,41 @@ const main = async () => {
   });
 
   const app = express();
+  const mongoUrl = `mongodb+srv://${process.env.SESSION_DB_USERNAME_DEV_PROD}:${process.env.SESSION_DB_PASSWORD_DEV_PROD}@cluster0.tgqym.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+  // Session/Cookies/ store
+  await mongoose.connect(
+    mongoUrl,
+    {
+      // useCreateIndex: true,
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
+      // useFindAndModify: false,
+      autoIndex: false
+    }
+  );
+
+  console.log('MongoDB Connected');
+
+  app.use(session({
+    name: COOKIE_NAME,
+    store: MongoStore.create({mongoUrl}),
+    cookie: {
+      maxAge: 1000*60*60, // one hour
+      httpOnly: true, // JS front end cannot access the cookies
+      secure: __prod__, // cookies only works in https
+      sameSite: 'lax',
+    },
+    secret: process.env.SESSION_SECRET_DEV_PROD as string,
+    saveUninitialized: false, // don;t save empty session
+    resave: false,
+  }));
 
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({ resolvers: [HelloResolver, UserResolver], validate: false }),
+    schema: await buildSchema({
+      resolvers: [HelloResolver, UserResolver],
+      validate: false,
+    }),
+    context: ({req, res}):Context => ({req, res}),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });
 
