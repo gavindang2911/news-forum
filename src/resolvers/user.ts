@@ -46,7 +46,7 @@ export class UserResolver {
         email,
       });
 
-      await User.save(newUser);
+      await newUser.save();
 
       req.session.userId = newUser.id;
 
