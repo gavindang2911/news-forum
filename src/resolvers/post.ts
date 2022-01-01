@@ -1,4 +1,4 @@
-import { Arg,  Mutation, Resolver } from 'type-graphql';
+import { Arg,  Mutation, Query, Resolver } from 'type-graphql';
 import { PostMutationResponse } from '../types/PostMutationResponse';
 import { CreatePostInput } from '../types/CreatePostInput';
 import { Post } from '../entities/Post';
@@ -32,4 +32,10 @@ export class PostResolver {
         };
       }
     }
+
+    @Query(_return => [Post])
+    async posts(): Promise<Post[]> {
+        return Post.find()
+    }
+
   }
