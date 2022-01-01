@@ -8,6 +8,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { HelloResolver } from './resolvers/hello';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
+import { UserResolver } from './resolvers/user';
 
 const main = async () => {
   await createConnection({
@@ -23,7 +24,7 @@ const main = async () => {
   const app = express();
 
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({ resolvers: [HelloResolver], validate: false }),
+    schema: await buildSchema({ resolvers: [HelloResolver, UserResolver], validate: false }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });
 
@@ -34,7 +35,7 @@ const main = async () => {
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () =>
     console.log(
-      `Server started on port ${PORT}, graphQL started on port ${apolloServer.graphqlPath}`
+      `Server started on port ${PORT}, graphQL started on port ${PORT}${apolloServer.graphqlPath}`
     )
   );
 };

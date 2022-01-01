@@ -4,7 +4,7 @@ import { FieldError } from './FieldError';
 import { IMutationResponse } from './MutationResponse';
 
 @ObjectType({ implements: IMutationResponse })
-export class UserMutationRespnse implements IMutationResponse {
+export class UserMutationResponse implements IMutationResponse {
   code: number;
   success: boolean;
   message?: string;
