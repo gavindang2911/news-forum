@@ -6,15 +6,17 @@ import { RegisterInput } from '../types/RegisterInput';
 import { validateRegisterInput } from '../utils/validateRegisterInput';
 import { LoginInput } from '../types/LoginInput';
 import { Context } from '../types/Context';
+import { COOKIE_NAME } from '../constants';
 
 @Resolver()
 export class UserResolver {
   @Mutation((_return) => UserMutationResponse)
   async register(
-    @Arg('registerInput') registerInput: RegisterInput
+    @Arg('registerInput') registerInput: RegisterInput,
+    @Ctx() { req }: Context
   ): Promise<UserMutationResponse> {
     const validateRegisterInputErrors = validateRegisterInput(registerInput);
-    if (validateRegisterInputErrors != null)
+    if (validateRegisterInputErrors !== null)
       return { code: 400, success: false, ...validateRegisterInputErrors };
 
     try {
@@ -38,17 +40,21 @@ export class UserResolver {
         };
 
       const hashedPassword = await argon2.hash(password);
-      const newUser = User.create({
+      let newUser = User.create({
         username,
         password: hashedPassword,
         email,
       });
 
+      newUser = await User.save(newUser);
+
+      req.session.userId = newUser.id;
+
       return {
         code: 200,
         success: true,
         message: 'User registration successful',
-        user: await User.save(newUser),
+        user: newUser,
       };
     } catch (error) {
       console.log(error);
@@ -103,7 +109,6 @@ export class UserResolver {
         };
 
       req.session.userId = existingUser.id;
-      console.log(req.session.userId);
       return {
         code: 200,
         success: true,
@@ -118,5 +123,20 @@ export class UserResolver {
         message: `Internal server error ${error.message}`,
       };
     }
+  }
+
+  @Mutation((_returns) => Boolean)
+  logout(@Ctx() { req, res }: Context): Promise<boolean> {
+    return new Promise((resolve, _reject) => {
+      req.session.destroy((error) => {
+        if (error) {
+          console.log('DESTROY SESSION ERROR', error);
+          resolve(false);
+        }
+
+        res.clearCookie(COOKIE_NAME);
+        resolve(true);
+      });
+    });
   }
 }
