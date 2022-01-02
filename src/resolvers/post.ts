@@ -1,47 +1,80 @@
-import { Arg,  ID,  Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql';
 import { PostMutationResponse } from '../types/PostMutationResponse';
 import { CreatePostInput } from '../types/CreatePostInput';
 import { Post } from '../entities/Post';
+import { UpdatePostInput } from '../types/UpdatePostInput';
 
 @Resolver()
 export class PostResolver {
   @Mutation((_return) => PostMutationResponse)
   async createPost(
-    @Arg('creatPostInput') {title, text}: CreatePostInput,
+    @Arg('creatPostInput') { title, text }: CreatePostInput
   ): Promise<PostMutationResponse> {
-      try {
-          const newPost = Post.create({
-              title,
-              text
-          })
+    try {
+      const newPost = Post.create({
+        title,
+        text,
+      });
 
-          await newPost.save();
-          return {
-            code: 200,
-            success: true,
-            message: 'Post created successfully',
-            post: newPost,
-          };
-
-      } catch (error) {
-        console.log(error);
-        return {
-          code: 500,
-          success: false,
-          message: `Internal server error ${error.message}`,
-        };
-      }
+      await newPost.save();
+      return {
+        code: 200,
+        success: true,
+        message: 'Post created successfully',
+        post: newPost,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        code: 500,
+        success: false,
+        message: `Internal server error ${error.message}`,
+      };
     }
-
-    @Query(_return => [Post])
-    async posts(): Promise<Post[]> {
-        return Post.find()
-    }
-
-    @Query(_return => Post, {nullable: true})
-    async post(@Arg('id', _type => ID) id: number): Promise<Post | undefined> {
-        const post = await Post.findOne(id);
-        return post;
-    }
-
   }
+
+  @Query((_return) => [Post], { nullable: true })
+  async posts(): Promise<Post[] | null> {
+    try {
+      return await Post.find();
+    } catch (error) {
+      return null;
+    }
+  }
+
+  @Query((_return) => Post, { nullable: true })
+  async post(@Arg('id', (_type) => ID) id: number): Promise<Post | undefined> {
+    try {
+      const post = await Post.findOne(id);
+      return post;
+    } catch (error) {
+      console.log(error);
+      return undefined;
+    }
+  }
+
+  @Mutation((_return) => PostMutationResponse)
+  async updatePost(
+    @Arg('updatePostInput') { id, title, text }: UpdatePostInput
+  ): Promise<PostMutationResponse> {
+    const existingPost = await Post.findOne(id);
+    if (!existingPost)
+      return {
+        code: 400,
+        success: false,
+        message: 'Post not found',
+      };
+
+    existingPost.title = title;
+    existingPost.text = text;
+
+    await existingPost.save();
+
+    return {
+      code: 200,
+      success: true,
+      message: 'Post updated succesfully',
+      post: existingPost,
+    };
+  }
+}
