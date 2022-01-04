@@ -5,10 +5,10 @@ interface IWrapperProps {
     children: ReactNode
 }
 
-const Wrapper = ({children}: IWrapperProps) => {
+const Wrapper = (props: IWrapperProps) => {
     return (
         <Box maxWidth='400px' w='100%' mt={8} mx='auto'>
-            {children}
+            {props.children}
         </Box>
     )
 }
