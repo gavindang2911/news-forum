@@ -1,9 +1,13 @@
-import { Container } from '../components/Container'
+import { Container } from '@chakra-ui/react'
+import { DarkModeSwitch } from '../components/DarkModeSwitch'
+import Register from './register'
 
 
 const Index = () => (
-  <Container height="100vh">
-    Hello World
+  <Container>
+
+    <DarkModeSwitch />
+    <Register />
   </Container>
 )
 
