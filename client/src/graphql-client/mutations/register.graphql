@@ -7,8 +7,7 @@ mutation Register ($registerInput: RegisterInput!) {
         ...userInfo
       }
       errors {
-        field
-        message
+        ...fieldError
       }
     }
   }
