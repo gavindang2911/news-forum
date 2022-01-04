@@ -13,7 +13,7 @@ const InputField = (props: InputFieldProps) => {
     const [field, {error}] = useField(props)
 
     return (
-        <FormControl>
+        <FormControl isInvalid={!!error}>
             <FormLabel htmlFor={props.name}>{props.label}</FormLabel>
             <Input {...field} id={field.name} {...props}></Input>
             {error && <FormErrorMessage>{error}</FormErrorMessage>}
