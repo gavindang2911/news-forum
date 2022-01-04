@@ -15,6 +15,7 @@ import session from 'express-session'
 import { COOKIE_NAME, __prod__ } from './constants';
 import { Context } from './types/Context';
 import { PostResolver } from './resolvers/post';
+import cors from 'cors'
 
 const main = async () => {
   await createConnection({
@@ -28,6 +29,15 @@ const main = async () => {
   });
 
   const app = express();
+
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true
+    })
+  )
+
+
   const mongoUrl = `mongodb+srv://${process.env.SESSION_DB_USERNAME_DEV_PROD}:${process.env.SESSION_DB_PASSWORD_DEV_PROD}@cluster0.tgqym.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
   // Session/Cookies/ store
   await mongoose.connect(
