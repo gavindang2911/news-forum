@@ -18,13 +18,14 @@ const Register = () => {
                 name="username"
                 label='Username'
                 placeholder="Enter Username"
+                type='text'
               />
               <br/>
               <InputField
                 name="password"
                 label='Password'
                 placeholder="Enter Password"
-                // type='password'
+                type='password'
               />
               <Button type='submit' mt={4} colorScheme='teal' isLoading={isSubmitting}>Register</Button>
             </FormControl>
