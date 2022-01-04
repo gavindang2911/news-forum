@@ -4,9 +4,7 @@ mutation Login($loginInput: loginInput!) {
     success
     message
     user {
-      id
-      username
-      email
+      ...userInfo
     }
     errors {
       field
