@@ -22,6 +22,13 @@ const Register = () => {
               />
               <br/>
               <InputField
+                name="email"
+                label='Email'
+                placeholder="Enter Email"
+                type='text'
+              />
+              <br/>
+              <InputField
                 name="password"
                 label='Password'
                 placeholder="Enter Password"
