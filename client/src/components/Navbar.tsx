@@ -32,25 +32,32 @@ import {
 } from '@chakra-ui/react';
 import { DarkModeSwitch } from './DarkModeSwitch';
 import NextLink from 'next/link';
-import { MeDocument, MeQuery, useLogoutMutation, useMeQuery } from '../generated/graphql';
+import {
+  MeDocument,
+  MeQuery,
+  useLogoutMutation,
+  useMeQuery,
+} from '../generated/graphql';
 
 // import Link from 'next/link'
 
 export default function Sidebar() {
   const [navSize, changeNavSize] = useState('large');
   const { data, loading: useMeQueryLoading } = useMeQuery();
-  const [logout, {loading: useLogoutMutationLoading}] = useLogoutMutation();
+  const [logout, { loading: useLogoutMutationLoading }] = useLogoutMutation();
 
   const logoutUser = async () => {
-      await logout({update(cache, {data}) {
-          if (data?.logout) {
-            cache.writeQuery<MeQuery>({
-                query: MeDocument,
-                data: { me: null }
-            })
-          }
-      }})
-  }
+    await logout({
+      update(cache, { data }) {
+        if (data?.logout) {
+          cache.writeQuery<MeQuery>({
+            query: MeDocument,
+            data: { me: null },
+          });
+        }
+      },
+    });
+  };
   let body;
 
   if (useMeQueryLoading) {
@@ -75,11 +82,11 @@ export default function Sidebar() {
       </>
     );
   } else {
-      body =
+    body = (
       <Button ml={6} onClick={logoutUser} isLoading={useLogoutMutationLoading}>
-          Log out
+        Log out
       </Button>
-
+    );
   }
   return (
     <Flex
@@ -117,7 +124,6 @@ export default function Sidebar() {
             </Link>
           </NextLink>
           {body}
-
         </Flex>
       </Flex>
 
