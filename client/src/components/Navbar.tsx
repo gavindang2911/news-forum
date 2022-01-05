@@ -28,14 +28,43 @@ import {
   Icon,
   MenuList,
   Box,
+  Button,
 } from '@chakra-ui/react';
 import { DarkModeSwitch } from './DarkModeSwitch';
 import NextLink from 'next/link';
+import { useMeQuery } from '../generated/graphql';
 
 // import Link from 'next/link'
 
 export default function Sidebar() {
   const [navSize, changeNavSize] = useState('large');
+  const { data, loading, error } = useMeQuery();
+  let body;
+
+  if (loading) {
+    body = null;
+  } else if (!data?.me) {
+    body = (
+      <>
+        <NextLink href="/login">
+          <Link p={3} borderRadius={8}>
+            <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
+              Login
+            </Text>
+          </Link>
+        </NextLink>
+        <NextLink href="/register">
+          <Link p={3} borderRadius={8}>
+            <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
+              Register
+            </Text>
+          </Link>
+        </NextLink>
+      </>
+    );
+  } else {
+      body = <Button>Log out</Button>
+  }
   return (
     <Flex
       pos="sticky"
@@ -71,20 +100,8 @@ export default function Sidebar() {
               </Text>
             </Link>
           </NextLink>
-          <NextLink href="/login">
-            <Link p={3} borderRadius={8}>
-              <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
-                Login
-              </Text>
-            </Link>
-          </NextLink>
-          <NextLink href="/register">
-            <Link p={3} borderRadius={8}>
-              <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
-                Register
-              </Text>
-            </Link>
-          </NextLink>
+          <Box>{body}</Box>
+
         </Flex>
       </Flex>
 

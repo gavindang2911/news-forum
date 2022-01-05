@@ -10,12 +10,12 @@ import { COOKIE_NAME } from '../constants';
 
 @Resolver()
 export class UserResolver {
-  @Query(_return => User, {nullable: true})
-  async me(@Ctx() {req}: Context): Promise<User | undefined | null> {
-    if (!req.session.userId) return null
-    const user = await User.findOne(req.session.userId)
-    return user
-  }
+  @Query(_return => User, { nullable: true })
+	async me(@Ctx() { req }: Context): Promise<User | undefined | null> {
+		if (!req.session.userId) return null
+		const user = await User.findOne(req.session.userId)
+		return user
+	}
 
   @Mutation((_return) => UserMutationResponse)
   async register(
