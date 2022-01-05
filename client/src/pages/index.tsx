@@ -1,14 +1,15 @@
 import { Container } from '@chakra-ui/react'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
+import Sidebar from '../components/Navbar'
 import Register from './register'
 
 
 const Index = () => (
-  <Container>
-    <h1>Hello world</h1>
-    <DarkModeSwitch />
+  <>
+    <Sidebar />
+
     {/* <Register /> */}
-  </Container>
+  </>
 )
 
 export default Index
