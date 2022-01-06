@@ -3,11 +3,17 @@ import { Form, Formik } from 'formik';
 import InputField from '../components/InputField';
 import Wrapper from '../components/Wrapper';
 import NextLink from 'next/link'
+import { ForgotPasswordInput, useForgotPasswordMutation } from '../generated/graphql';
 
 const ForgotPassword = () => {
   const initialValues = { email: '' };
+  const [forgotPassword, { loading, data }] = useForgotPasswordMutation()
+
+  const onForgotPasswordSubmit = async (values: ForgotPasswordInput) => {
+    await forgotPassword({ variables: { forgotPasswordInput: values } })
+}
   return (
-    <Wrapper size="small">
+    <Wrapper>
       <Formik initialValues={initialValues} onSubmit={onForgotPasswordSubmit}>
         {({ isSubmitting }) =>
           !loading && data ? (
