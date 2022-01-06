@@ -11,6 +11,7 @@ import { ForgotPasswordInput } from '../types/ForgotPassword';
 import { sendEmail } from '../utils/sendEmail';
 import { TokenModel } from '../models/Token';
 import {v4 as uuidv4} from 'uuid'
+import { ChangePasswordInput } from '../types/ChangePasswordInput';
 @Resolver()
 export class UserResolver {
   @Query(_return => User, { nullable: true })
