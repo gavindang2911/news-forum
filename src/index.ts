@@ -16,6 +16,7 @@ import { COOKIE_NAME, __prod__ } from './constants';
 import { Context } from './types/Context';
 import { PostResolver } from './resolvers/post';
 import cors from 'cors'
+import { sendEmail } from './utils/sendEmail';
 
 const main = async () => {
   await createConnection({
@@ -27,6 +28,8 @@ const main = async () => {
     synchronize: true,
     entities: [User, Post],
   });
+
+  await sendEmail("gavindev@gmail.com", '<b>Hello </b>')
 
   const app = express();
 
