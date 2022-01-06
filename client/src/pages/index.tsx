@@ -5,6 +5,7 @@ import { PostsDocument, usePostsQuery } from '../generated/graphql';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
 import NextLink from 'next/link'
 import Wrapper from '../components/Wrapper';
+import Layout from '../components/Layout';
 
 const Index = () => {
   const { data, loading } = usePostsQuery();
@@ -17,10 +18,10 @@ const Index = () => {
     })
   );
   return (
-    <>
+    <Layout>
       {/* <Flex> */}
 
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <Wrapper >
         {loading ? (
@@ -55,7 +56,7 @@ const Index = () => {
       </Wrapper>
 
       {/* <Register /> */}
-    </>
+    </Layout>
   );
 };
 

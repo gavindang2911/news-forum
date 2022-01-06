@@ -90,7 +90,7 @@ const ChangePassword = () => {
 		)
 	else
 		return (
-			<Wrapper>
+			<Wrapper size='small'>
 				<Formik initialValues={initialValues} onSubmit={onChangePasswordSubmit}>
 					{({ isSubmitting }) => (
 						<Form>
