@@ -76,7 +76,6 @@ const Register = () => {
           >
             {({ isSubmitting }) => (
               <Form>
-                <FormControl>
                   <InputField
                     name="username"
                     label="Username"
@@ -105,7 +104,6 @@ const Register = () => {
                   >
                     Register
                   </Button>
-                </FormControl>
               </Form>
             )}
           </Formik>

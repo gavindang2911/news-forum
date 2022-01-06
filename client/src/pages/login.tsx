@@ -76,7 +76,6 @@ const Login = () => {
           <Formik initialValues={initialInputValues} onSubmit={onLoginSubmit}>
             {({ isSubmitting }) => (
               <Form>
-                <FormControl>
                   <InputField
                     name="usernameOrEmail"
                     label="Username or Email"
@@ -98,7 +97,6 @@ const Login = () => {
                   >
                     Login
                   </Button>
-                </FormControl>
               </Form>
             )}
           </Formik>
