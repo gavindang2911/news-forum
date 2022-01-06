@@ -1,4 +1,4 @@
-import { Button, Flex, FormControl, Spinner, useToast } from '@chakra-ui/react';
+import { Button, Flex, FormControl, Spinner, useToast, Link } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -12,6 +12,7 @@ import {
 } from '../generated/graphql';
 import { mapFieldErrors } from '../helpers/mapFieldErrors';
 import { useCheckAuth } from '../utils/useCheckAuth';
+import NextLink from 'next/link'
 
 const Login = () => {
   const router = useRouter();
@@ -89,6 +90,11 @@ const Login = () => {
                     placeholder="Enter Password"
                     type="password"
                   />
+                  <Flex mt={2}>
+									<NextLink href='/forgot-password'>
+										<Link ml='auto'>Forgot Password</Link>
+									</NextLink>
+								</Flex>
                   <Button
                     type="submit"
                     mt={4}
