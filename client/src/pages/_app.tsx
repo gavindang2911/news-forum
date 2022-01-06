@@ -3,18 +3,20 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../theme';
 import { AppProps } from 'next/app';
 import { ApolloClient, ApolloProvider, createHttpLink,  InMemoryCache } from '@apollo/client';
+import { useApollo } from '../lib/apolloClient';
 
-// const httpLink = new HttpLink({ uri: 'http://localhost:4000/graphql' })
 
-const client = new ApolloClient({
-  link: createHttpLink({
-    uri: 'http://localhost:4000/graphql',
-    credentials: 'include',
-  }),
-  cache: new InMemoryCache(),
-});
+
+// const client = new ApolloClient({
+//   link: createHttpLink({
+//     uri: 'http://localhost:4000/graphql',
+//     credentials: 'include',
+//   }),
+//   cache: new InMemoryCache(),
+// });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const apolloClient = useApollo(pageProps)
   return (
     <ApolloProvider client={client}>
       <ChakraProvider resetCSS theme={theme}>
