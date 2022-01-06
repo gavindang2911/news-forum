@@ -7,7 +7,10 @@ import { validateRegisterInput } from '../utils/validateRegisterInput';
 import { LoginInput } from '../types/LoginInput';
 import { Context } from '../types/Context';
 import { COOKIE_NAME } from '../constants';
-
+import { ForgotPasswordInput } from '../types/ForgotPassword';
+import { sendEmail } from '../utils/sendEmail';
+import { TokenModel } from '../models/Token';
+import {v4 as uuidv4} from 'uuid'
 @Resolver()
 export class UserResolver {
   @Query(_return => User, { nullable: true })
@@ -146,4 +149,32 @@ export class UserResolver {
       });
     });
   }
+
+  @Mutation(_return => Boolean)
+	async forgotPassword(
+		@Arg('forgotPasswordInput') forgotPasswordInput: ForgotPasswordInput
+	): Promise<boolean> {
+		const user = await User.findOne({ email: forgotPasswordInput.email })
+
+		if (!user) return true
+
+		await TokenModel.findOneAndDelete({ userId: `${user.id}` })
+
+		const resetToken = uuidv4()
+		const hashedResetToken = await argon2.hash(resetToken)
+
+		// save token to db
+		await new TokenModel({
+			userId: `${user.id}`,
+			token: hashedResetToken
+		}).save()
+
+		// send reset password link to user via email
+		await sendEmail(
+			forgotPasswordInput.email,
+			`<a href="http://localhost:3000/change-password?token=${resetToken}&userId=${user.id}">Click here to reset your password</a>`
+		)
+
+		return true
+	}
 }
