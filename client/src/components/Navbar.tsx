@@ -29,6 +29,7 @@ import {
   MenuList,
   Box,
   Button,
+  IconButton,
 } from '@chakra-ui/react';
 import { DarkModeSwitch } from './DarkModeSwitch';
 import NextLink from 'next/link';
@@ -90,7 +91,7 @@ export default function Sidebar() {
   }
   return (
     <Flex
-      pos="sticky"
+      pos="fixed"
       left="5"
       h="95vh"
       marginTop="2.5vh"
@@ -99,6 +100,8 @@ export default function Sidebar() {
       w={navSize == 'small' ? '75px' : '200px'}
       flexDir="column"
       justifyContent="space-between"
+      overflow="hidden"
+
     >
       <Flex
         p="10%"
@@ -107,6 +110,7 @@ export default function Sidebar() {
         alignItems={navSize == 'small' ? 'center' : 'flex-start'}
         as="nav"
       >
+
         <DarkModeSwitch />
 
         {/* <NavItem navSize={navSize} title="Dashboard" description="This is the description for the dashboard." /> */}
@@ -152,3 +156,4 @@ export default function Sidebar() {
     </Flex>
   );
 }
+

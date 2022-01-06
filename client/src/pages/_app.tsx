@@ -7,7 +7,7 @@ import theme from '../theme';
 
 
 
-// const client = new ApolloClient({
+// const apolloClient = new ApolloClient({
 //   link: createHttpLink({
 //     uri: 'http://localhost:4000/graphql',
 //     credentials: 'include',
