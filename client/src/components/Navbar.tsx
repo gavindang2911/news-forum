@@ -92,30 +92,42 @@ export default function Sidebar() {
   return (
     <Flex
       pos="fixed"
-      left="5"
+      left="10"
       h="95vh"
-      marginTop="2.5vh"
+      // marginTop="2.5vh"
       boxShadow="0 5px 20px 0 rgba(0, 0, 0, 0.5)"
       borderRadius={navSize == 'small' ? '15px' : '30px'}
       w={navSize == 'small' ? '75px' : '200px'}
       flexDir="column"
-      justifyContent="space-between"
       overflow="hidden"
-
     >
+      <Box mt={10} align="center">
+        <Avatar size="sm" src="avatar-1.jpg" />
+        <Flex
+          flexDir="column"
+          mt={4}
+          mb={8}
+          display={navSize == 'small' ? 'none' : 'flex'}
+        >
+          <Heading as="h3" size="sm">
+            Sylwia Weller
+          </Heading>
+          <Text color="gray">Admin</Text>
+        </Flex>
+        <Divider display={navSize == 'small' ? 'none' : 'flex'} />
+      </Box>
       <Flex
         p="10%"
+        mt={10}
         flexDir="column"
         w="100%"
         alignItems={navSize == 'small' ? 'center' : 'flex-start'}
         as="nav"
       >
-
         <DarkModeSwitch />
 
         {/* <NavItem navSize={navSize} title="Dashboard" description="This is the description for the dashboard." /> */}
         <Flex
-          mt={30}
           flexDir="column"
           w="100%"
           alignItems={navSize == 'small' ? 'center' : 'flex-start'}
@@ -130,30 +142,6 @@ export default function Sidebar() {
           {body}
         </Flex>
       </Flex>
-
-      <Flex
-        p="5%"
-        flexDir="column"
-        w="100%"
-        alignItems={navSize == 'small' ? 'center' : 'flex-start'}
-        mb={4}
-      >
-        <Divider display={navSize == 'small' ? 'none' : 'flex'} />
-        <Flex mt={4} align="center">
-          <Avatar size="sm" src="avatar-1.jpg" />
-          <Flex
-            flexDir="column"
-            ml={4}
-            display={navSize == 'small' ? 'none' : 'flex'}
-          >
-            <Heading as="h3" size="sm">
-              Sylwia Weller
-            </Heading>
-            <Text color="gray">Admin</Text>
-          </Flex>
-        </Flex>
-      </Flex>
     </Flex>
   );
 }
-

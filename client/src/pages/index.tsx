@@ -1,9 +1,10 @@
-import { Box, Center, Container, Flex } from '@chakra-ui/react';
+import { Box, Center, Container, Flex, Heading, Link, Spinner, Stack, Text } from '@chakra-ui/react';
 import { DarkModeSwitch } from '../components/DarkModeSwitch';
 import Sidebar from '../components/Navbar';
 import { PostsDocument, usePostsQuery } from '../generated/graphql';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
-import Register from './register';
+import NextLink from 'next/link'
+import Wrapper from '../components/Wrapper';
 
 const Index = () => {
   const { data, loading } = usePostsQuery();
@@ -21,19 +22,37 @@ const Index = () => {
 
       <Sidebar />
 
-      <Container bg="blue.500" size="150px">
+      <Wrapper >
         {loading ? (
-          'Loading'
+          <Flex justifyContent='center' alignItems='center' minH='100vh'>
+          <Spinner />
+        </Flex>
         ) : (
-          <ul>
-            {data?.posts?.map((post) => (
-              <Box height="370px">
-                <li>{post.title}</li>
-              </Box>
-            ))}
-          </ul>
+          <Stack spacing={8}>
+					{data?.posts?.map(post => (
+						<Flex key={post.id} p={5} shadow='md' borderWidth='1px'>
+							<Box flex={1}>
+								<NextLink href={`/post/${post.id}`}>
+									<Link>
+										<Heading fontSize='xl'>{post.title}</Heading>
+									</Link>
+								</NextLink>
+								<Text>posted by User</Text>
+								<Flex align='center'>
+									<Text mt={4}>{post.text}</Text>
+									<Box ml='auto'>
+										{/* <PostEditDeleteButtons
+											postId={post.id}
+											postUserId={post.user.id}
+										/> */}
+									</Box>
+								</Flex>
+							</Box>
+						</Flex>
+					))}
+				</Stack>
         )}
-      </Container>
+      </Wrapper>
 
       {/* <Register /> */}
     </>
