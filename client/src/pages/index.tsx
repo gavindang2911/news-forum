@@ -19,17 +19,20 @@ const Index = () => {
   );
   return (
     <Layout>
-      {/* <Flex> */}
 
-      {/* <Sidebar /> */}
 
-      <Wrapper >
+
+
+
+
         {loading ? (
           <Flex justifyContent='center' alignItems='center' minH='100vh'>
           <Spinner />
         </Flex>
         ) : (
-          <Stack spacing={8}>
+
+
+          <Stack spacing={40} mt={40}>
 					{data?.posts?.map(post => (
 						<Flex key={post.id} p={5} shadow='md' borderWidth='1px'>
 							<Box flex={1}>
@@ -52,11 +55,11 @@ const Index = () => {
 						</Flex>
 					))}
 				</Stack>
-        )}
-      </Wrapper>
 
-      {/* <Register /> */}
+        )}
     </Layout>
+
+
   );
 };
 

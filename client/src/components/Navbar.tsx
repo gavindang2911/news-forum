@@ -1,19 +1,19 @@
-// import { Box, Flex, Heading } from '@chakra-ui/react'
-// import React from 'react'
+// // import { Box, Flex, Heading } from '@chakra-ui/react'
+// // import React from 'react'
 
-// const Navbar = () => {
-//     return (
-//         <Box bg='tan' p={4}>
-//             <Flex maxW={800} justifyContent='space-between'>
-//                 <Heading>Reddit</Heading>
-//                 <Box>Login/Register/Logout</Box>
+// // const Navbar = () => {
+// //     return (
+// //         <Box bg='tan' p={4}>
+// //             <Flex maxW={800} justifyContent='space-between'>
+// //                 <Heading>Reddit</Heading>
+// //                 <Box>Login/Register/Logout</Box>
 
-//             </Flex>
-//         </Box>
-//     )
-// }
+// //             </Flex>
+// //         </Box>
+// //     )
+// // }
 
-// export default Navbar
+// // export default Navbar
 
 import React, { useState } from 'react';
 import {
@@ -30,6 +30,10 @@ import {
   Box,
   Button,
   IconButton,
+  Container,
+  Stack,
+  MenuItem,
+  useToast,
 } from '@chakra-ui/react';
 import { DarkModeSwitch } from './DarkModeSwitch';
 import NextLink from 'next/link';
@@ -39,10 +43,12 @@ import {
   useLogoutMutation,
   useMeQuery,
 } from '../generated/graphql';
+import { HamburgerIcon } from '@chakra-ui/icons';
 
 // import Link from 'next/link'
 
 export default function Sidebar() {
+  const toast = useToast();
   const [navSize, changeNavSize] = useState('large');
   const { data, loading: useMeQueryLoading } = useMeQuery();
   const [logout, { loading: useLogoutMutationLoading }] = useLogoutMutation();
@@ -54,6 +60,13 @@ export default function Sidebar() {
           cache.writeQuery<MeQuery>({
             query: MeDocument,
             data: { me: null },
+          });
+
+          toast({
+            title: 'Logout successfully',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
           });
         }
       },
@@ -69,14 +82,14 @@ export default function Sidebar() {
         <NextLink href="/login">
           <Link p={3} borderRadius={8}>
             <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
-              Login
+              Log In
             </Text>
           </Link>
         </NextLink>
         <NextLink href="/register">
           <Link p={3} borderRadius={8}>
             <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
-              Register
+              Sign Up
             </Text>
           </Link>
         </NextLink>
@@ -90,58 +103,70 @@ export default function Sidebar() {
     );
   }
   return (
-    <Flex
-      pos="fixed"
-      left="10"
-      h="95vh"
-      // marginTop="2.5vh"
-      boxShadow="0 5px 20px 0 rgba(0, 0, 0, 0.5)"
-      borderRadius={navSize == 'small' ? '15px' : '30px'}
-      w={navSize == 'small' ? '75px' : '200px'}
-      flexDir="column"
-      overflow="hidden"
-    >
-      <Box mt={10} align="center">
-        <Avatar size="sm" src="avatar-1.jpg" />
-        <Flex
-          flexDir="column"
-          mt={4}
-          mb={8}
-          display={navSize == 'small' ? 'none' : 'flex'}
-        >
-          <Heading as="h3" size="sm">
-            Sylwia Weller
-          </Heading>
-          <Text color="gray">Admin</Text>
-        </Flex>
-        <Divider display={navSize == 'small' ? 'none' : 'flex'} />
-      </Box>
-      <Flex
-        p="10%"
-        mt={10}
-        flexDir="column"
-        w="100%"
-        alignItems={navSize == 'small' ? 'center' : 'flex-start'}
-        as="nav"
-      >
-        <DarkModeSwitch />
+    // <Box bg='tan' p={4}>
+    // 	<Flex maxW={800} justifyContent='space-between' align='center' m='auto'>
+    // 		<NextLink href='/'>
+    // 			<Heading>Reddit</Heading>
+    // 		</NextLink>
+    // 		<Box>{body}</Box>
+    // 	</Flex>
+    // </Box>
 
-        {/* <NavItem navSize={navSize} title="Dashboard" description="This is the description for the dashboard." /> */}
-        <Flex
-          flexDir="column"
-          w="100%"
-          alignItems={navSize == 'small' ? 'center' : 'flex-start'}
-        >
-          <NextLink href="/">
-            <Link p={3} borderRadius={8}>
-              <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
-                New Feed
-              </Text>
-            </Link>
-          </NextLink>
-          {body}
+    <Box
+      top="0"
+      position="fixed"
+      as="nav"
+      w="100%"
+      css={{ backdropFilter: 'blur(10px)' }}
+      backgroundColor="#020202"
+      color="#fff"
+      zIndex={1}
+    >
+      <Container
+        display="flex"
+        p={3}
+        maxW="container.md"
+        wrap="wrap"
+        align="center"
+        justify="space-between"
+      >
+        {' '}
+        <Flex align="center" mr={5}>
+          <Heading
+            fontSize={['4xl', '4xl', '2xl', '3xl', '4xl']}
+            alignSelf="center"
+            letterSpacing="tight"
+          >
+            Dev Talk
+          </Heading>
         </Flex>
-      </Flex>
-    </Flex>
+        <Stack
+          display={{ base: 'none', md: 'flex' }}
+          direction={{ base: 'column', md: 'row' }}
+          width={{ base: 'full', md: 'auto' }}
+          alignItems="center"
+          flexGrow={1}
+          mt={{ base: 4, md: 0 }}
+        >
+          {body}
+        </Stack>
+        <Box flex={1} align="right">
+          <DarkModeSwitch />
+          <Box ml={2} display={{ base: 'inline-block', md: 'none' }}>
+            <Menu isLazy id="navbar-menu">
+              <MenuButton
+                as={IconButton}
+                icon={<HamburgerIcon />}
+                variant="outline"
+                aria-label="Options"
+              />
+              <MenuList>
+                {body}
+              </MenuList>
+            </Menu>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
   );
 }
