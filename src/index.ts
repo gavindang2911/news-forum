@@ -29,7 +29,6 @@ const main = async () => {
     entities: [User, Post],
   });
 
-  await sendEmail("gavindev@gmail.com", '<b>Hello </b>')
 
   const app = express();
 

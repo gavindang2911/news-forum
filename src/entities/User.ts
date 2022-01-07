@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import {BaseEntity, Column,CreateDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm'
+import {BaseEntity, Column,CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm'
+import { Post } from './Post'
 
 
 @ObjectType()
@@ -19,6 +20,9 @@ export class User extends BaseEntity {
 
     @Column()
     password!: string
+
+    @OneToMany(() => Post, post => post.user)
+    posts: Post[]
 
     @Field()
     @CreateDateColumn()

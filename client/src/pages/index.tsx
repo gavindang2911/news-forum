@@ -32,7 +32,7 @@ const Index = () => {
         ) : (
 
 
-          <Stack spacing={40} mt={40}>
+          <Stack mt={40}>
 					{data?.posts?.map(post => (
 						<Flex key={post.id} p={5} shadow='md' borderWidth='1px'>
 							<Box flex={1}>
@@ -43,7 +43,7 @@ const Index = () => {
 								</NextLink>
 								<Text>posted by User</Text>
 								<Flex align='center'>
-									<Text mt={4}>{post.text}</Text>
+									<Text mt={4}>{post.textSnippet}</Text>
 									<Box ml='auto'>
 										{/* <PostEditDeleteButtons
 											postId={post.id}
