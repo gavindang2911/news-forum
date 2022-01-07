@@ -1,8 +1,8 @@
+import { NetworkStatus } from '@apollo/client';
 import {
   Avatar,
   Box,
-  Center,
-  Container,
+  Button,
   Flex,
   Heading,
   Link,
@@ -10,25 +10,26 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { DarkModeSwitch } from '../components/DarkModeSwitch';
-import Sidebar from '../components/Navbar';
-import { PostsDocument, usePostsQuery } from '../generated/graphql';
-import { addApolloState, initializeApollo } from '../lib/apolloClient';
 import NextLink from 'next/link';
-import Wrapper from '../components/Wrapper';
 import Layout from '../components/Layout';
 import PostEditDeleteButtons from '../components/PostEditDeleteButtons';
+import { PostsDocument, usePostsQuery } from '../generated/graphql';
+import { addApolloState, initializeApollo } from '../lib/apolloClient';
+
+const limit = 3;
 
 const Index = () => {
-  const { data, loading } = usePostsQuery();
-  console.log(
-    'saasd',
-    data?.posts?.map((post) => {
-      {
-        post.title;
-      }
-    })
-  );
+  const { data, loading, fetchMore, networkStatus } = usePostsQuery({
+    variables: { limit },
+
+    // component nao render boi cai Posts query, se rerender khi networkStatus thay doi, tuc la fetchMore
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
+
+  const loadMorePosts = () =>
+    fetchMore({ variables: { cursor: data?.posts?.cursor } });
   return (
     <Layout>
       {loading ? (
@@ -37,7 +38,7 @@ const Index = () => {
         </Flex>
       ) : (
         <Stack mt={40}>
-          {data?.posts?.map((post) => (
+          {data?.posts?.paginatedPosts.map((post) => (
             <Flex
               key={post.id}
               flexDir="column"
@@ -55,7 +56,9 @@ const Index = () => {
                     <Text fontSize="sm">@{post.user.username}</Text>
                   </Flex>
                 </Flex>
-                <Text pt={3} as='i'>{post.createdAt.slice(0, 10)}</Text>
+                <Text pt={3} as="i">
+                  {post.createdAt.slice(0, 10)}
+                </Text>
               </Flex>
               <Box pt={3}>
                 <NextLink href={`/post/${post.id}`}>
@@ -69,14 +72,25 @@ const Index = () => {
                 <Flex align="center">
                   <Text mt={4}>{post.textSnippet}</Text>
                   <Box ml="auto">
-                    <PostEditDeleteButtons
-										/>
+                    <PostEditDeleteButtons />
                   </Box>
                 </Flex>
               </Box>
             </Flex>
           ))}
         </Stack>
+      )}
+      {data?.posts?.hasMore && (
+        <Flex>
+          <Button
+            m="auto"
+            my={8}
+            isLoading={loadingMorePosts}
+            onClick={loadMorePosts}
+          >
+            {loadingMorePosts ? 'Loading' : 'Show more'}
+          </Button>
+        </Flex>
       )}
     </Layout>
   );
@@ -87,6 +101,9 @@ export const getStaticProps = async () => {
 
   await apolloClient.query({
     query: PostsDocument,
+    variables: {
+      limit,
+    },
   });
 
   return addApolloState(apolloClient, {
