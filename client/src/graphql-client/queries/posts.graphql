@@ -4,7 +4,9 @@ query Posts {
         title
         text
         createdAt
-        updatedAt
         textSnippet
+        user {
+            username
+        }
 	}
 }
