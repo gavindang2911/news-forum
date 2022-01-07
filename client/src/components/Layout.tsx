@@ -4,13 +4,14 @@ import Wrapper from './Wrapper'
 
 interface ILayoutProps {
 	children: ReactNode
+	wrapperSize?: string
 }
 
-const Layout = ({ children }: ILayoutProps) => {
+const Layout = ({ children, wrapperSize }: ILayoutProps) => {
 	return (
 		<>
 			<Sidebar />
-			<Wrapper>{children}</Wrapper>
+			<Wrapper size={wrapperSize}>{children}</Wrapper>
 		</>
 	)
 }

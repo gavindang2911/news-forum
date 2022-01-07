@@ -3,6 +3,7 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 import React from 'react';
 import InputField from '../components/InputField';
+import Layout from '../components/Layout';
 import Wrapper from '../components/Wrapper';
 import {
   MeDocument,
@@ -68,7 +69,7 @@ const Register = () => {
           <Spinner />
         </Flex>
       ) : (
-        <Wrapper size='small'>
+        <Layout wrapperSize='small'>
           {error && <p>Failed to register</p>}
           <Formik
             initialValues={initialInputValues}
@@ -107,7 +108,7 @@ const Register = () => {
               </Form>
             )}
           </Formik>
-        </Wrapper>
+        </Layout>
       )}
     </>
   );

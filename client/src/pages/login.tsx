@@ -13,6 +13,7 @@ import {
 import { mapFieldErrors } from '../helpers/mapFieldErrors';
 import { useCheckAuth } from '../utils/useCheckAuth';
 import NextLink from 'next/link'
+import Layout from '../components/Layout';
 
 const Login = () => {
   const router = useRouter();
@@ -72,7 +73,7 @@ const Login = () => {
           <Spinner />
         </Flex>
       ) : (
-        <Wrapper size='small'>
+        <Layout wrapperSize='small'>
           {error && <p>Failed to login</p>}
           <Formik initialValues={initialInputValues} onSubmit={onLoginSubmit}>
             {({ isSubmitting }) => (
@@ -106,7 +107,7 @@ const Login = () => {
               </Form>
             )}
           </Formik>
-        </Wrapper>
+        </Layout>
       )}
     </>
   );

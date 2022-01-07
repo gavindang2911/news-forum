@@ -1,18 +1,25 @@
 import { Box } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 
-type WrapperSize = 'regular' | 'small'
 
 interface IWrapperProps {
 	children: ReactNode
-	size?: WrapperSize
+	size?: string
 }
 
 const Wrapper = ({ children, size = 'regular' }: IWrapperProps) => {
+	let inputFieldSize;
+	if (size === 'regular') {
+		inputFieldSize = undefined
+	} else if (size === 'big') {
+		inputFieldSize = '800px'
+	} else {
+		inputFieldSize = '400px'
+	}
 	return (
 		<Box
 		mt={48}
-			maxW={size === 'regular' ? undefined : '400px'}
+			maxW={inputFieldSize}
 
 			// w='100%'
 			// mt={8}

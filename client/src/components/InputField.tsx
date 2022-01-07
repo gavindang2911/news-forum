@@ -23,7 +23,7 @@ const InputField = ({textarea, ...props}: InputFieldProps) => {
     <FormControl isInvalid={!!error}>
       <FormLabel htmlFor={props.name}>{props.label}</FormLabel>
       {textarea ? (
-        <Textarea {...field} id={field.name} {...props} />
+        <Textarea {...field} id={field.name} {...props} height={60} />
       ) : (
         <Input {...field} id={field.name} {...props}></Input>
       )}
