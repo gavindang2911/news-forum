@@ -11,10 +11,13 @@ interface IWrapperProps {
 const Wrapper = ({ children, size = 'regular' }: IWrapperProps) => {
 	return (
 		<Box
-			maxW={size === 'regular' ? '800px' : '400px'}
-			w='100%'
-			mt={8}
+		mt={48}
+			maxW={size === 'regular' ? undefined : '400px'}
+
+			// w='100%'
+			// mt={8}
 			mx='auto'
+
 		>
 			{children}
 		</Box>

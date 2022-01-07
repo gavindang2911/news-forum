@@ -3,9 +3,11 @@ import {
   Avatar,
   Box,
   Button,
+  Container,
   Flex,
   Heading,
   Link,
+  SimpleGrid,
   Spinner,
   Stack,
   Text,
@@ -13,7 +15,8 @@ import {
 import NextLink from 'next/link';
 import Layout from '../components/Layout';
 import PostEditDeleteButtons from '../components/PostEditDeleteButtons';
-import { PostsDocument, usePostsQuery } from '../generated/graphql';
+import Sidebar from '../components/Sidebar';
+import { PostsDocument, useMeQuery, usePostsQuery } from '../generated/graphql';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
 
 const limit = 3;
@@ -26,6 +29,8 @@ const Index = () => {
     notifyOnNetworkStatusChange: true,
   });
 
+  const { data: useMeData, loading: useMeQueryLoading } = useMeQuery();
+
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 
   const loadMorePosts = () =>
@@ -37,48 +42,53 @@ const Index = () => {
           <Spinner />
         </Flex>
       ) : (
-        <Stack mt={40}>
-          {data?.posts?.paginatedPosts.map((post) => (
-            <Flex
-              key={post.id}
-              flexDir="column"
-              p={8}
-              shadow="md"
-              borderWidth="1px"
-              // backgroundColor="#121212"
-              // color="#fff"
-            >
-              <Flex flexDir="row">
-                <Flex flex={1}>
-                  <Avatar my={2} src="" />
-                  <Flex flexDir="column" pl={4}>
-                    <Text fontSize="2xl">{post.user.username}</Text>
-                    <Text fontSize="sm">@{post.user.username}</Text>
-                  </Flex>
-                </Flex>
-                <Text pt={3} as="i">
-                  {post.createdAt.slice(0, 10)}
-                </Text>
-              </Flex>
-              <Box pt={3}>
-                <NextLink href={`/post/${post.id}`}>
-                  <Link>
-                    <Heading fontSize="xl" color="greenyellow">
-                      {post.title}
-                    </Heading>
-                  </Link>
-                </NextLink>
+        <SimpleGrid columns={[1, 2, 3]} w="100%">
+          <Box>{useMeData?.me ? <Sidebar /> : <></>}</Box>
 
-                <Flex align="center">
-                  <Text mt={4}>{post.textSnippet}</Text>
-                  <Box ml="auto">
-                    <PostEditDeleteButtons />
-                  </Box>
+          <Stack>
+            {data?.posts?.paginatedPosts.map((post) => (
+              <Flex
+                key={post.id}
+                flexDir="column"
+                p={6}
+                shadow="md"
+                borderWidth="1px"
+                // backgroundColor="#121212"
+                // color="#fff"
+              >
+                <Flex flexDir="row">
+                  <Flex flex={1}>
+                    <Avatar my={2} src="" />
+                    <Flex flexDir="column" pl={4}>
+                      <Text fontSize="2xl">{post.user.username}</Text>
+                      <Text fontSize="sm">@{post.user.username}</Text>
+                    </Flex>
+                  </Flex>
+                  <Text pt={3} as="i">
+                    {post.createdAt.slice(0, 10)}
+                  </Text>
                 </Flex>
-              </Box>
-            </Flex>
-          ))}
-        </Stack>
+                <Box pt={3}>
+                  <NextLink href={`/post/${post.id}`}>
+                    <Link>
+                      <Heading fontSize="xl" color="greenyellow">
+                        {post.title}
+                      </Heading>
+                    </Link>
+                  </NextLink>
+
+                  <Flex align="center">
+                    <Text mt={4}>{post.textSnippet}</Text>
+                    <Box ml="auto">
+                      <PostEditDeleteButtons />
+                    </Box>
+                  </Flex>
+                </Box>
+              </Flex>
+            ))}
+          </Stack>
+          <Box></Box>
+        </SimpleGrid>
       )}
       {data?.posts?.hasMore && (
         <Flex>

@@ -24,7 +24,7 @@ import { Context } from '../types/Context';
 export class PostResolver {
   @FieldResolver((_return) => String)
   textSnippet(@Root() root: Post) {
-    return root.text.slice(0, 80);
+    return root.text.slice(0, 70);
   }
 
   @FieldResolver((_return) => User)

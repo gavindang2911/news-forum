@@ -47,7 +47,7 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 
 // import Link from 'next/link'
 
-export default function Sidebar() {
+export default function Navbar() {
   const toast = useToast();
   const [navSize, changeNavSize] = useState('large');
   const { data, loading: useMeQueryLoading } = useMeQuery();
@@ -93,9 +93,15 @@ export default function Sidebar() {
     );
   } else {
     body = (
-      <Button ml={6} onClick={logoutUser} isLoading={useLogoutMutationLoading}>
-        Log out
+
+      <Flex>
+      <NextLink href='/create-post'>
+        <Button mr={4}>Create Post</Button>
+      </NextLink>
+      <Button onClick={logoutUser} isLoading={useLogoutMutationLoading}>
+        Logout
       </Button>
+    </Flex>
     );
   }
   return (
