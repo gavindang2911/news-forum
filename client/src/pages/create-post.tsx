@@ -52,7 +52,7 @@ const CreatePost = () => {
 		)
 	} else {
 		return (
-			<Layout>
+			<Layout wrapperSize='big'>
 				<Formik initialValues={initialValues} onSubmit={onCreatePostSubmit}>
 					{({ isSubmitting }) => (
 						<Form>
