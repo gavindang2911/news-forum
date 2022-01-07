@@ -18,7 +18,9 @@ export const useCheckAuth = () => {
       ) {
         router.replace('/');
       }
-    } else if (!data?.me) {
+    } else if (!data?.me &&
+      router.route !== '/login' &&
+      router.route !== '/register') {
       router.replace('/login')
     }
   }, [data, loading, router]);
