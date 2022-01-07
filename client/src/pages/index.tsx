@@ -32,7 +32,7 @@ const Index = () => {
     fetchMore({ variables: { cursor: data?.posts?.cursor } });
   return (
     <Layout>
-      {loading ? (
+      {loading && !loadingMorePosts ? (
         <Flex justifyContent="center" alignItems="center" minH="100vh">
           <Spinner />
         </Flex>
