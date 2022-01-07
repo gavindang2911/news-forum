@@ -81,16 +81,12 @@ export default function Sidebar() {
       <>
         <NextLink href="/login">
           <Link p={3} borderRadius={8}>
-            <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
-              Log In
-            </Text>
+            <Text ml={5}>Log In</Text>
           </Link>
         </NextLink>
         <NextLink href="/register">
           <Link p={3} borderRadius={8}>
-            <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>
-              Sign Up
-            </Text>
+            <Text ml={5}>Sign Up</Text>
           </Link>
         </NextLink>
       </>
@@ -109,8 +105,8 @@ export default function Sidebar() {
       as="nav"
       w="100%"
       css={{ backdropFilter: 'blur(10px)' }}
-      backgroundColor="#020202"
-      color="#fff"
+      // backgroundColor="#020202"
+      // color="#fff"
       zIndex={1}
     >
       <Container
@@ -121,10 +117,9 @@ export default function Sidebar() {
         align="center"
         justify="space-between"
       >
-        {' '}
         <Flex align="center" mr={5}>
           <Heading
-            fontSize={['4xl', '4xl', '2xl', '3xl', '4xl']}
+            fontSize={['3xl', '3xl', '1xl', '2xl', '3xl']}
             alignSelf="center"
             letterSpacing="tight"
           >
@@ -136,16 +131,15 @@ export default function Sidebar() {
           direction={{ base: 'column', md: 'row' }}
           width={{ base: 'full', md: 'auto' }}
           alignItems="center"
-          flexGrow={1}
-          mt={{ base: 4, md: 0 }}
+          flexGrow={5}
         >
           {body}
         </Stack>
+        <DarkModeSwitch />
         <Box flex={1} align="right">
           <Avatar my={2} src="" />
 
-          <DarkModeSwitch />
-          <Box ml={2} display={{ base: 'inline-block', md: 'none' }}>
+          <Box ml={4} pt={4} display={{ base: 'inline-block', md: 'none' }}>
             <Menu isLazy id="navbar-menu">
               <MenuButton
                 as={IconButton}

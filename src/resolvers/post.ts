@@ -1,17 +1,16 @@
-import { Arg, Ctx, FieldResolver, ID, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
-import { PostMutationResponse } from '../types/PostMutationResponse';
-import { CreatePostInput } from '../types/CreatePostInput';
+import { Arg, FieldResolver, ID, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
 import { Post } from '../entities/Post';
-import { UpdatePostInput } from '../types/UpdatePostInput';
-import { checkAuth } from '../middleware/checkAuth';
 import { User } from '../entities/User';
-import { Context } from '../types/Context';
+import { checkAuth } from '../middleware/checkAuth';
+import { CreatePostInput } from '../types/CreatePostInput';
+import { PostMutationResponse } from '../types/PostMutationResponse';
+import { UpdatePostInput } from '../types/UpdatePostInput';
 
 @Resolver(_of => Post)
 export class PostResolver {
   @FieldResolver(_return => String)
 	textSnippet(@Root() root: Post) {
-		return root.text.slice(0, 50)
+		return root.text.slice(0, 80)
 	}
 
   @FieldResolver(_return => User)

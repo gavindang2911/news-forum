@@ -1,22 +1,21 @@
 require('dotenv').config();
-import 'reflect-metadata';
-import express from 'express';
-import { createConnection } from 'typeorm';
-import { User } from './entities/User';
-import { Post } from './entities/Post';
-import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
-import { HelloResolver } from './resolvers/hello';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { UserResolver } from './resolvers/user';
+import { ApolloServer } from 'apollo-server-express';
+import MongoStore from 'connect-mongo';
+import cors from 'cors';
+import express from 'express';
+import session from 'express-session';
 import mongoose from 'mongoose';
-import MongoStore from 'connect-mongo'
-import session from 'express-session'
+import 'reflect-metadata';
+import { buildSchema } from 'type-graphql';
+import { createConnection } from 'typeorm';
 import { COOKIE_NAME, __prod__ } from './constants';
-import { Context } from './types/Context';
+import { Post } from './entities/Post';
+import { User } from './entities/User';
+import { HelloResolver } from './resolvers/hello';
 import { PostResolver } from './resolvers/post';
-import cors from 'cors'
-import { sendEmail } from './utils/sendEmail';
+import { UserResolver } from './resolvers/user';
+import { Context } from './types/Context';
 
 const main = async () => {
   await createConnection({
