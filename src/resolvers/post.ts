@@ -1,3 +1,4 @@
+import { PaginatedPosts } from '../types/PaginatedPosts';
 import { Arg, FieldResolver, ID, Mutation, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
 import { Post } from '../entities/Post';
 import { User } from '../entities/User';
@@ -50,8 +51,8 @@ export class PostResolver {
     }
   }
 
-  @Query((_return) => [Post], { nullable: true })
-  async posts(): Promise<Post[] | null> {
+  @Query((_return) => PaginatedPosts, { nullable: true })
+  async posts(): Promise<PaginatedPosts | null> {
     try {
       return await Post.find();
     } catch (error) {
