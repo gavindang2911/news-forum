@@ -39,7 +39,7 @@ export class PostResolver {
   @Mutation((_return) => PostMutationResponse)
   @UseMiddleware(checkAuth)
   async createPost(
-    @Arg('creatPostInput') { title, text }: CreatePostInput,
+    @Arg('createPostInput') { title, text }: CreatePostInput,
     @Ctx() { req }: Context
   ): Promise<PostMutationResponse> {
     try {
