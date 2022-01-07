@@ -78,7 +78,15 @@ const Index = () => {
                   </NextLink>
 
                   <Flex align="center">
-                    <Text mt={4}>{post.textSnippet}</Text>
+                    <Text mt={4}>
+                      {post.textSnippet.length > 70 ? (
+                        <>{post.textSnippet}</>
+                      ) : (
+                        <>
+                          {post.textSnippet} . . . .
+                        </>
+                      )}
+                    </Text>
                     <Box ml="auto">
                       <PostEditDeleteButtons />
                     </Box>
