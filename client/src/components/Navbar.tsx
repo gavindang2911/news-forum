@@ -103,15 +103,6 @@ export default function Sidebar() {
     );
   }
   return (
-    // <Box bg='tan' p={4}>
-    // 	<Flex maxW={800} justifyContent='space-between' align='center' m='auto'>
-    // 		<NextLink href='/'>
-    // 			<Heading>Reddit</Heading>
-    // 		</NextLink>
-    // 		<Box>{body}</Box>
-    // 	</Flex>
-    // </Box>
-
     <Box
       top="0"
       position="fixed"
@@ -151,6 +142,8 @@ export default function Sidebar() {
           {body}
         </Stack>
         <Box flex={1} align="right">
+          <Avatar my={2} src="" />
+
           <DarkModeSwitch />
           <Box ml={2} display={{ base: 'inline-block', md: 'none' }}>
             <Menu isLazy id="navbar-menu">
@@ -160,9 +153,7 @@ export default function Sidebar() {
                 variant="outline"
                 aria-label="Options"
               />
-              <MenuList>
-                {body}
-              </MenuList>
+              <MenuList>{body}</MenuList>
             </Menu>
           </Box>
         </Box>
