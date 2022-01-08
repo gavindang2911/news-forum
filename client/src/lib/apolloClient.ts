@@ -51,7 +51,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
     // uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
     uri:
       process.env.NODE_ENV === 'production'
-        ? 'https://sleepy-castle-81019.herokuapp.com/graphql'
+        ? 'https://reddit-ver2.herokuapp.com/graphql'
         : 'http://localhost:4000/graphql',
     credentials: 'include', // Additional fetch() options like `credentials` or `headers`
     fetch: enhancedFetch,
