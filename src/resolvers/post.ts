@@ -44,6 +44,25 @@ export class PostResolver {
     // return await userLoader.load(root.userId)
   }
 
+  @FieldResolver(_return => Int)
+	async voteType(
+		@Root() root: Post,
+		@Ctx() { req }: Context
+	) {
+		if (!req.session.userId) return 0
+		const existingVote = await Upvote.findOne({
+			postId: root.id,
+			userId: req.session.userId
+		})
+
+		// const existingVote = await voteTypeLoader.load({
+		// 	postId: root.id,
+		// 	userId: req.session.userId
+		// })
+
+		return existingVote ? existingVote.value : 0
+	}
+
   @Mutation((_return) => PostMutationResponse)
   @UseMiddleware(checkAuth)
   async createPost(
@@ -182,6 +201,7 @@ export class PostResolver {
       message: 'Post deleted succesfully',
     };
   }
+
 
 
 
