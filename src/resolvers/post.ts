@@ -194,6 +194,7 @@ export class PostResolver {
       return { code: 401, success: false, message: 'Unauthorised' };
     }
 
+    await Upvote.delete({postId: id})
     await Post.delete({ id });
     return {
       code: 200,
