@@ -1,3 +1,4 @@
+
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Upvote } from "./Upvote";
@@ -28,6 +29,9 @@ export class Post extends BaseEntity {
     @Field()
     @Column({default: 0})
     points!: number
+
+    @Field()
+    voteType!: number
 
     @Field()
     @Column()
