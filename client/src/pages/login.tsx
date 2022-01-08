@@ -9,7 +9,7 @@ import {
   LoginInput,
   MeDocument,
   MeQuery,
-  useLoginMutation
+  useLoginMutation,
 } from '../generated/graphql';
 import { mapFieldErrors } from '../helpers/mapFieldErrors';
 import { initializeApollo } from '../lib/apolloClient';
@@ -27,8 +27,7 @@ const Login = () => {
     password: '',
   };
 
-  const [loginUser, { loading: _loginUserLoading, error }] =
-    useLoginMutation();
+  const [loginUser, { loading: _loginUserLoading, error }] = useLoginMutation();
 
   const onLoginSubmit = async (
     values: LoginInput,

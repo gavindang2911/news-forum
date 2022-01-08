@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Link, Spinner } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
+import NextLink from 'next/link';
 import InputField from '../components/InputField';
 import Wrapper from '../components/Wrapper';
-import NextLink from 'next/link';
 import {
   ForgotPasswordInput,
   useForgotPasswordMutation,
@@ -25,7 +25,7 @@ const ForgotPassword = () => {
     );
   } else {
     return (
-      <Wrapper size='small'>
+      <Wrapper size="small">
         <Formik initialValues={initialValues} onSubmit={onForgotPasswordSubmit}>
           {({ isSubmitting }) =>
             !loading && data ? (

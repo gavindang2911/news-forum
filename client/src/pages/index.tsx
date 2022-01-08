@@ -30,7 +30,7 @@ const Index = () => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const { data: useMeData, loading: useMeQueryLoading } = useMeQuery();
+  const { data: useMeData, loading: _useMeQueryLoading } = useMeQuery();
 
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 

@@ -1,19 +1,11 @@
 import {
-  Heading,
   Avatar,
-  Box,
-  Center,
-  Image,
-  Flex,
-  Text,
-  Stack,
-  Button,
-  useColorModeValue,
+  Box, Button, Center, Flex, Heading, Image, Stack, Text, useColorModeValue
 } from '@chakra-ui/react';
 import { useMeQuery } from '../generated/graphql';
 
 const Sidebar = () => {
-  const { data, loading} = useMeQuery();
+  const { data} = useMeQuery();
 
   return (
     <Center>

@@ -3,7 +3,7 @@ import {
   from,
   HttpLink,
   InMemoryCache,
-  NormalizedCacheObject,
+  NormalizedCacheObject
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 // import { concatPagination } from '@apollo/client/utilities';
