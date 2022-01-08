@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import {BaseEntity, Column,CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm'
 import { Post } from './Post'
+import { Upvote } from './Upvote'
 
 
 @ObjectType()
@@ -23,6 +24,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Post, post => post.user)
     posts: Post[]
+
+    @OneToMany(_to => Upvote, upvote => upvote.user)
+    upvotes: Upvote[]
 
     @Field()
     @CreateDateColumn()
