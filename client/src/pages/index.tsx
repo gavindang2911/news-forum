@@ -83,13 +83,14 @@ const Index = () => {
                       {post.textSnippet.length > 70 ? (
                         <>{post.textSnippet}</>
                       ) : (
-                        <>
-                          {post.textSnippet} . . . .
-                        </>
+                        <>{post.textSnippet} . . . .</>
                       )}
                     </Text>
                     <Box ml="auto">
-                      <PostEditDeleteButtons />
+                      <PostEditDeleteButtons
+                        postId={post.id}
+                        postUserId={post.user.id}
+                      />
                     </Box>
                   </Flex>
                 </Box>
