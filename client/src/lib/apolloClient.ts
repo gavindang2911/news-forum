@@ -1,16 +1,19 @@
-import { useMemo } from 'react';
 import {
   ApolloClient,
+  from,
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
 // import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
-import isEqual from 'lodash/isEqual';
-import { Post } from '../generated/graphql';
 import { IncomingHttpHeaders } from 'http';
 import fetch from 'isomorphic-unfetch';
+import isEqual from 'lodash/isEqual';
+import Router from 'next/router';
+import { useMemo } from 'react';
+import { Post } from '../generated/graphql';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -19,6 +22,17 @@ let apolloClient: ApolloClient<NormalizedCacheObject>;
 interface IApolloStateProps {
   [APOLLO_STATE_PROP_NAME]?: NormalizedCacheObject;
 }
+
+const errorLink = onError((errors) => {
+  if (
+    errors.graphQLErrors &&
+    errors.graphQLErrors[0].extensions?.code === 'UNAUTHENTICATED' &&
+    errors.response
+  ) {
+    errors.response.errors = undefined;
+    Router.replace('/login');
+  }
+});
 
 function createApolloClient(headers: IncomingHttpHeaders | null = null) {
   const enhancedFetch = (url: RequestInfo, init: RequestInit) => {
@@ -33,13 +47,19 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
     });
   };
 
+  const httpLink = new HttpLink({
+    // uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
+    uri:
+      process.env.NODE_ENV === 'production'
+        ? 'https://sleepy-castle-81019.herokuapp.com/graphql'
+        : 'http://localhost:4000/graphql',
+    credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+    fetch: enhancedFetch,
+  });
+
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: new HttpLink({
-      uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
-      credentials: 'include', // Additional fetch() options like `credentials` or `headers`
-      fetch: enhancedFetch,
-    }),
+    link: from([errorLink, httpLink]),
     cache: new InMemoryCache({
       typePolicies: {
         Query: {

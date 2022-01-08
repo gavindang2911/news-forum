@@ -1,55 +1,32 @@
-// // import { Box, Flex, Heading } from '@chakra-ui/react'
-// // import React from 'react'
-
-// // const Navbar = () => {
-// //     return (
-// //         <Box bg='tan' p={4}>
-// //             <Flex maxW={800} justifyContent='space-between'>
-// //                 <Heading>Reddit</Heading>
-// //                 <Box>Login/Register/Logout</Box>
-
-// //             </Flex>
-// //         </Box>
-// //     )
-// // }
-
-// // export default Navbar
-
-import React, { useState } from 'react';
+import { gql, Reference } from '@apollo/client';
+import { HamburgerIcon } from '@chakra-ui/icons';
 import {
-  Flex,
-  Text,
-  Divider,
   Avatar,
-  Heading,
-  Menu,
-  Link,
-  MenuButton,
-  Icon,
-  MenuList,
   Box,
-  Button,
-  IconButton,
   Container,
+  Flex,
+  Heading,
+  IconButton,
+  Link,
+  Menu,
+  MenuButton,
+  MenuList,
   Stack,
-  MenuItem,
+  Text,
   useToast,
 } from '@chakra-ui/react';
-import { DarkModeSwitch } from './DarkModeSwitch';
 import NextLink from 'next/link';
+import React from 'react';
 import {
   MeDocument,
   MeQuery,
   useLogoutMutation,
   useMeQuery,
 } from '../generated/graphql';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { DarkModeSwitch } from './DarkModeSwitch';
 
-// import Link from 'next/link'
-
-export default function Navbar() {
+const Navbar = () => {
   const toast = useToast();
-  const [navSize, changeNavSize] = useState('large');
   const { data, loading: useMeQueryLoading } = useMeQuery();
   const [logout, { loading: useLogoutMutationLoading }] = useLogoutMutation();
 
@@ -62,6 +39,27 @@ export default function Navbar() {
             data: { me: null },
           });
 
+          cache.modify({
+            fields: {
+              posts(existing) {
+                existing.paginatedPosts.forEach((post: Reference) => {
+                  cache.writeFragment({
+                    id: post.__ref, // `Post:17`
+                    fragment: gql`
+                      fragment VoteType on Post {
+                        voteType
+                      }
+                    `,
+                    data: {
+                      voteType: 0,
+                    },
+                  });
+                });
+
+                return existing;
+              },
+            },
+          });
           toast({
             title: 'Logout successfully',
             status: 'success',
@@ -80,12 +78,12 @@ export default function Navbar() {
     body = (
       <>
         <NextLink href="/login">
-          <Link p={3} borderRadius={8}>
+          <Link p={3}>
             <Text ml={5}>Log In</Text>
           </Link>
         </NextLink>
         <NextLink href="/register">
-          <Link p={3} borderRadius={8}>
+          <Link p={3}>
             <Text ml={5}>Sign Up</Text>
           </Link>
         </NextLink>
@@ -93,17 +91,19 @@ export default function Navbar() {
     );
   } else {
     body = (
-
       <Flex>
-      <NextLink href='/create-post'>
-        <Button mr={4}>Create Post</Button>
-      </NextLink>
-      <Button onClick={logoutUser} isLoading={useLogoutMutationLoading}>
-        Logout
-      </Button>
-    </Flex>
+        <NextLink href="/create-post">
+          <Link p={3}>
+            <Text ml={5}>Create Post</Text>
+          </Link>
+        </NextLink>
+        <Link p={3} onClick={logoutUser} isLoading={useLogoutMutationLoading}>
+          <Text ml={5}>Logout</Text>
+        </Link>
+      </Flex>
     );
   }
+
   return (
     <Box
       top="0"
@@ -124,13 +124,17 @@ export default function Navbar() {
         justify="space-between"
       >
         <Flex align="center" mr={5}>
-          <Heading
-            fontSize={['3xl', '3xl', '1xl', '2xl', '3xl']}
-            alignSelf="center"
-            letterSpacing="tight"
-          >
-            Dev Talk
-          </Heading>
+          <NextLink href="/">
+            <Link style={{ textDecoration: 'none' }}>
+              <Heading
+                fontSize={['3xl', '3xl', '1xl', '2xl', '3xl']}
+                alignSelf="center"
+                letterSpacing="tight"
+              >
+                Dev Talk
+              </Heading>
+            </Link>
+          </NextLink>
         </Flex>
         <Stack
           display={{ base: 'none', md: 'flex' }}
@@ -160,4 +164,6 @@ export default function Navbar() {
       </Container>
     </Box>
   );
-}
+};
+
+export default Navbar;

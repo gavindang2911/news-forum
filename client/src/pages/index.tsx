@@ -3,7 +3,6 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   Flex,
   Heading,
   Link,
@@ -59,7 +58,7 @@ const Index = () => {
                 // color="#fff"
               >
                 <Flex flexDir="row">
-                  <UpvoteSection post={post}/>
+                  <UpvoteSection post={post} />
 
                   <Flex flex={1}>
                     <Avatar my={2} src="" />
@@ -119,8 +118,10 @@ const Index = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const apolloClient = initializeApollo({headers: context.req.headers});
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const apolloClient = initializeApollo({ headers: context.req.headers });
 
   await apolloClient.query({
     query: PostsDocument,
