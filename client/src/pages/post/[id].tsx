@@ -59,10 +59,10 @@ const Post = () => {
 			<Heading mb={8}>{data.post.title}</Heading>
 			<Box mb={4}>{data.post.text}</Box>
 			<Flex justifyContent='space-between' alignItems='center'>
-				{/* <PostEditDeleteButtons
-					// postId={data.post.id}
+				<PostEditDeleteButtons
+					postId={data.post.id}
 					postUserId={data.post.userId.toString()}
-				/> */}
+				/>
 				<NextLink href='/'>
 					<Button>Back to Homepage</Button>
 				</NextLink>
