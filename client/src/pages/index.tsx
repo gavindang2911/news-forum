@@ -17,6 +17,7 @@ import { GetStaticProps } from 'next/types';
 import Layout from '../components/Layout';
 import PostEditDeleteButtons from '../components/PostEditDeleteButtons';
 import Sidebar from '../components/Sidebar';
+import UpvoteSection from '../components/UpvoteSection';
 import { PostsDocument, useMeQuery, usePostsQuery } from '../generated/graphql';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
 
@@ -58,6 +59,8 @@ const Index = () => {
                 // color="#fff"
               >
                 <Flex flexDir="row">
+                  <UpvoteSection post={post}/>
+
                   <Flex flex={1}>
                     <Avatar my={2} src="" />
                     <Flex flexDir="column" pl={4}>
@@ -69,7 +72,7 @@ const Index = () => {
                     {post.createdAt.slice(0, 10)}
                   </Text>
                 </Flex>
-                <Box pt={3}>
+                <Box pt={3} pl={14}>
                   <NextLink href={`/post/${post.id}`}>
                     <Link>
                       <Heading fontSize="xl" color="greenyellow">
