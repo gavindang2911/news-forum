@@ -13,7 +13,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { GetStaticProps } from 'next/types';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next/types';
 import Layout from '../components/Layout';
 import PostEditDeleteButtons from '../components/PostEditDeleteButtons';
 import Sidebar from '../components/Sidebar';
@@ -119,8 +119,8 @@ const Index = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const apolloClient = initializeApollo();
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+  const apolloClient = initializeApollo({headers: context.req.headers});
 
   await apolloClient.query({
     query: PostsDocument,
