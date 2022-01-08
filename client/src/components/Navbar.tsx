@@ -91,7 +91,7 @@ const Navbar = () => {
     );
   } else {
     body = (
-      <Flex>
+      <>
         <NextLink href="/create-post">
           <Link p={3}>
             <Text ml={5}>Create Post</Text>
@@ -100,7 +100,7 @@ const Navbar = () => {
         <Link p={3} onClick={logoutUser} isLoading={useLogoutMutationLoading}>
           <Text ml={5}>Logout</Text>
         </Link>
-      </Flex>
+      </>
     );
   }
 
@@ -147,7 +147,9 @@ const Navbar = () => {
         </Stack>
         <DarkModeSwitch />
         <Box flex={1} align="right">
-          <Avatar my={2} src="" />
+          {data?.me ? <Avatar my={2} src={
+              'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'
+            } /> : null}
 
           <Box ml={4} pt={4} display={{ base: 'inline-block', md: 'none' }}>
             <Menu isLazy id="navbar-menu">

@@ -17,6 +17,7 @@ import { HelloResolver } from './resolvers/hello';
 import { PostResolver } from './resolvers/post';
 import { UserResolver } from './resolvers/user';
 import { Context } from './types/Context';
+import { buildDataLoaders } from './utils/dataLoader';
 
 const main = async () => {
   const connection = await createConnection({
@@ -74,7 +75,7 @@ const main = async () => {
       resolvers: [HelloResolver, UserResolver, PostResolver],
       validate: false,
     }),
-    context: ({req, res}):Context => ({req, res, connection}),
+    context: ({req, res}):Context => ({req, res, connection, dataLoaders: buildDataLoaders()}),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });
 
