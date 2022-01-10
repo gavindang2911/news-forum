@@ -54,8 +54,8 @@ const Index = () => {
                 p={6}
                 shadow="md"
                 borderWidth="1px"
-                backgroundColor="#C5D2D3"
-                // color="#fff"
+                backgroundColor="#808080"
+                color="#fff"
               >
                 <Flex flexDir="row">
                   <UpvoteSection post={post} />
