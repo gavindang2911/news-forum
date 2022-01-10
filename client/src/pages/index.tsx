@@ -54,7 +54,7 @@ const Index = () => {
                 p={6}
                 shadow="md"
                 borderWidth="1px"
-                // backgroundColor="#121212"
+                backgroundColor="#C5D2D3"
                 // color="#fff"
               >
                 <Flex flexDir="row">
@@ -74,7 +74,7 @@ const Index = () => {
                 <Box pt={3} pl={14}>
                   <NextLink href={`/post/${post.id}`}>
                     <Link>
-                      <Heading fontSize="xl" color="greenyellow">
+                      <Heading fontSize="xl">
                         {post.title}
                       </Heading>
                     </Link>
@@ -83,9 +83,9 @@ const Index = () => {
                   <Flex align="center">
                     <Text mt={4}>
                       {post.textSnippet.length > 70 ? (
-                        <>{post.textSnippet}</>
+                        <>{post.textSnippet}. . . .</>
                       ) : (
-                        <>{post.textSnippet} . . . .</>
+                        <>{post.textSnippet}</>
                       )}
                     </Text>
                     <Box ml="auto">
