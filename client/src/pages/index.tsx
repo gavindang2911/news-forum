@@ -52,10 +52,9 @@ const Index = () => {
                 key={post.id}
                 flexDir="column"
                 p={6}
-                shadow="md"
+                // shadow="md"
+                boxShadow={'2xl'}
                 borderWidth="1px"
-                backgroundColor="#808080"
-                color="#fff"
               >
                 <Flex flexDir="row">
                   <UpvoteSection post={post} />
